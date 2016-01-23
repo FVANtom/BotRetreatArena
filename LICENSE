@@ -1,3 +1,9 @@
+This project uses third party assets which are currently free in the Unity asset store.
+ 
+This MIT license is only applicable to the custom code inside this project (./Assets/Custom). 
+Please check the third party asset licenses to see if you can use them in your project.
+
+
 The MIT License (MIT)
 
 Copyright (c) 2016 FVANtom
