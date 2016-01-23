@@ -85,48 +85,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &2024353
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 415044, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &251033785
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,8 +180,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1108073249}
   - 114: {fileID: 1108073248}
+  - 114: {fileID: 1108073250}
   m_Layer: 0
-  m_Name: GridController
+  m_Name: Controllers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,10 +201,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridPrefab: {fileID: 145254, guid: 04e5d6a5ff0194022850f1cd1fa5f0f2, type: 2}
   grid: {fileID: 0}
-  width: 16
-  height: 9
   gridToWorldScale: 1
   platformHeight: 1
+  refreshRate: 1
+  botPrefab: {fileID: 131020, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
 --- !u!4 &1108073249
 Transform:
   m_ObjectHideFlags: 0
@@ -253,11 +212,22 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1108073247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.18166381, y: 0.53435975, z: -0.27161002}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &1108073250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1108073247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96fee225bb0c44e9890826169aed2436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1359609337
 GameObject:
   m_ObjectHideFlags: 0

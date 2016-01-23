@@ -10841,8 +10841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2543a469c0c74a8eace5d3e56af988f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
-  newOrientation: 2
   speed: 2
   rotationSpeed: 2
 --- !u!137 &13702056
