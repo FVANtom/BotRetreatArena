@@ -1,0 +1,9 @@
+/Library/
+/Temp/
+*.sln
+*.pidb
+*.csproj
+/Builds/
+.DS_Store
+/Documents/
+obj
