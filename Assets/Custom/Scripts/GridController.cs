@@ -56,6 +56,7 @@ namespace com.terranovita.botretreat {
         grid = Instantiate(gridPrefab);
       }
       grid.transform.localScale = new Vector3((float)arena.Width, platformHeight, (float)arena.Height);
+      grid.GetComponent<Renderer>().sharedMaterial.SetTextureScale("_MainTex", new Vector2((float)arena.Width, (float)arena.Height));
       if(bots != null) {
         foreach(var botId in bots.Keys) {
           bots[botId].instantRefresh();
