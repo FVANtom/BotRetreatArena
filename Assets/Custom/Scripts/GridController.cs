@@ -117,6 +117,7 @@ namespace com.terranovita.botretreat {
         }
         currentBot.bot = bot;
         newBots.Add(bot.Id, currentBot);
+        //break;
       }
       bots = newBots;
     }
