@@ -62,8 +62,8 @@ namespace com.terranovita.botretreat {
         float step = speed * Time.deltaTime;
         Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(bot.LocationX, bot.LocationY);
         Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
-        Debug.Log((newPos - transform.position).magnitude);
-        if((newPos - transform.position).magnitude > 0.01) {
+        if((newPos - transform.position).magnitude < 0.01) {
+          Debug.Log((newPos - transform.position).magnitude);
           GoAnim("loop_idle");
         } else {
           GoAnim("loop_run_funny");
@@ -79,24 +79,12 @@ namespace com.terranovita.botretreat {
     }
 
     void GoAnim ( string nme  ){
-      Debug.Log(anim.clip.name +" vs "+ nme);
-      if(anim.clip.name != nme) {
+      if(!anim.IsPlaying(nme)) {
+        Debug.Log(anim.clip.name +" vs "+ nme);
         anim.Stop();
         anim.Play(nme);
       }
-      //StartCoroutine(GoAnimAsync(nme));
     }
 
-    IEnumerator GoAnimAsync ( string nme  ){
-      if(anim.clip.name != nme) {
-        Debug.Log(anim.clip.name+" vs "+nme);
-        anim.CrossFade (nme);
-        while (anim.isPlaying/* && anim.clip.name == nme*/) {
-          // do nothing
-          yield return 0;
-        }
-        anim.CrossFade ("loop_idle");
-      }
-    }
   }
 }

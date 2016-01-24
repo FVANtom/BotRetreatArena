@@ -52,6 +52,9 @@ namespace com.terranovita.botretreat {
     public Dictionary<string, BotController> bots;
 
     private void initialize() {
+      if(grid == null) {
+        grid = Instantiate(gridPrefab);
+      }
       grid.transform.localScale = new Vector3((float)arena.Width, platformHeight, (float)arena.Height);
       if(bots != null) {
         foreach(var botId in bots.Keys) {
@@ -73,7 +76,6 @@ namespace com.terranovita.botretreat {
 
     // Use this for initialization
     void Start () {
-      grid = Instantiate(gridPrefab);
       InvokeRepeating("refreshGrid", 0, refreshRate);
     }
 
