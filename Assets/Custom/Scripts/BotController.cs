@@ -63,7 +63,7 @@ namespace com.terranovita.botretreat {
         Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(bot.LocationX, bot.LocationY);
         Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
         if((newPos - transform.position).magnitude < 0.01) {
-          Debug.Log((newPos - transform.position).magnitude);
+          //Debug.Log((newPos - transform.position).magnitude);
           GoAnim("loop_idle");
         } else {
           GoAnim("loop_run_funny");
@@ -80,7 +80,7 @@ namespace com.terranovita.botretreat {
 
     void GoAnim ( string nme  ){
       if(!anim.IsPlaying(nme)) {
-        Debug.Log(anim.clip.name +" vs "+ nme);
+        //Debug.Log(anim.clip.name +" vs "+ nme);
         anim.Stop();
         anim.Play(nme);
       }
