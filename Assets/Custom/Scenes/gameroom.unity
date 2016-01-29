@@ -599,6 +599,7 @@ MonoBehaviour:
   platformHeight: 1
   refreshRate: 1
   botPrefab: {fileID: 131020, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
+  nameTagPrefab: {fileID: 127760, guid: 62ccf87495b534a488a482d63ef42d82, type: 2}
 --- !u!4 &1108073249
 Transform:
   m_ObjectHideFlags: 0
