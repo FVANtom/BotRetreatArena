@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace com.terranovita.botretreat
 {
@@ -52,7 +53,9 @@ namespace com.terranovita.botretreat
 
         public GameObject botPrefab;
         public GameObject nameTagPrefab;
-        public Dictionary<string, BotController> bots;
+        public GameObject healthTagPrefab;
+        public GameObject staminaTagPrefab;
+        public Dictionary<String, BotController> _bots = new Dictionary<string, BotController>();
 
         private void initialize()
         {
@@ -62,11 +65,11 @@ namespace com.terranovita.botretreat
             }
             grid.transform.localScale = new Vector3((float)arena.Width, platformHeight, (float)arena.Height);
             grid.GetComponent<Renderer>().sharedMaterial.SetTextureScale("_MainTex", new Vector2((float)arena.Width, (float)arena.Height));
-            if (bots != null)
+            if (_bots != null)
             {
-                foreach (var botId in bots.Keys)
+                foreach (var botId in _bots.Keys)
                 {
-                    bots[botId].instantRefresh();
+                    _bots[botId].instantRefresh();
                 }
             }
         }
@@ -98,54 +101,52 @@ namespace com.terranovita.botretreat
 
         private void successCallback(JSONObject json)
         {
-            //Debug.Log(json);
-            JSONObject arenaProperties = json.GetField("arena");
-            //Debug.Log(arenaProperties);
-            if (arenaProperties != null)
+            var oldArena = arena;
+            arena = json.GetValue<Arena>("arena");
+            if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height))
             {
-                Arena oldArena = arena;
-                arena = Arena.createFrom(arenaProperties);
-                if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height))
-                {
-                    initialize();
-                }
+                initialize();
             }
-            JSONObject botsJson = json.GetField("bots");
-            //Debug.Log(arenaProperties);
-            if (botsJson != null)
-            {
-                refreshBots(botsJson);
-            }
+            var bots = json.GetValues<Bot>("bots");
+            refreshBots(bots);
         }
+
         private void errorCallback(JSONObject json)
         {
             Debug.Log(json.str);
         }
 
 
-        private void refreshBots(JSONObject json)
+        private void refreshBots(List<Bot> bots)
         {
-            Dictionary<string, BotController> newBots = new Dictionary<string, BotController>();
-            foreach (JSONObject botJson in json.list)
+            foreach (var bot in bots)
             {
-                Bot bot = Bot.createFrom(botJson);
-                BotController currentBot = null;
-                if (bots == null || !bots.TryGetValue(bot.Id, out currentBot))
+                BotController currentBotController = null;
+                _bots.TryGetValue(bot.Id, out currentBotController);
+                if (currentBotController == null)
                 {
                     var currentBotGO = Instantiate(botPrefab);
-                    currentBot = currentBotGO.GetComponent<BotController>();
+                    currentBotController = currentBotGO.GetComponent<BotController>();
+
                     var currentNameTagGO = Instantiate(nameTagPrefab);
-                    var txtMesh = currentNameTagGO.GetComponent<TextMesh>();
-                    txtMesh.text = bot.Name;
-                    currentNameTagGO.GetComponent<NameTagController>().BotGameObject = currentBotGO;
+                    var nameTagController = currentNameTagGO.GetComponent<NameTagController>();
+                    nameTagController.BotGameObject = currentBotGO;
+                    currentBotController.NameTagController = nameTagController;
+
+                    var currentHealthTagGO = Instantiate(healthTagPrefab);
+                    var healthController = currentHealthTagGO.GetComponent<HealthTagController>();
+                    healthController.BotGameObject = currentBotGO;
+                    currentBotController.HealthController = healthController;
+
+                    var currentStaminaTagGO = Instantiate(staminaTagPrefab);
+                    var staminaController = currentStaminaTagGO.GetComponent<StaminaTagController>();
+                    staminaController.BotGameObject = currentBotGO;
+                    currentBotController.StaminaController = staminaController;
+
+                    _bots.Add(bot.Id, currentBotController);
                 }
-                currentBot.bot = bot;
-                newBots.Add(bot.Id, currentBot);
-                //break;
+                currentBotController.UpdateBot(bot);
             }
-            bots = newBots;
         }
-
-
     }
 }
