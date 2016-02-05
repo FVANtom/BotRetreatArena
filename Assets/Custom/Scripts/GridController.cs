@@ -119,6 +119,7 @@ namespace com.terranovita.botretreat
 
         private void refreshBots(List<Bot> bots)
         {
+            CleanKilledBots(bots);
             foreach (var bot in bots)
             {
                 BotController currentBotController = null;
@@ -146,6 +147,20 @@ namespace com.terranovita.botretreat
                     _bots.Add(bot.Id, currentBotController);
                 }
                 currentBotController.UpdateBot(bot);
+            }
+        }
+
+        private void CleanKilledBots(List<Bot> currentBots)
+        {
+            var cachedBotIds = _bots.Select(x => x.Key).ToList();
+            var currentBotIds = currentBots.Select(x => x.Id).ToList();
+            foreach (var cachedBotId in cachedBotIds)
+            {
+                if (!currentBotIds.Contains(cachedBotId))
+                {
+                    _bots[cachedBotId].Destroy();
+                    _bots.Remove(cachedBotId);
+                }
             }
         }
     }

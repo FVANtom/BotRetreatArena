@@ -30,5 +30,11 @@ namespace com.terranovita.botretreat
             healthSlider.maxValue = bot.PhysicalHealth.Maximum;
             healthSlider.value = bot.PhysicalHealth.Current;
         }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+            Destroy(this);
+        }
     }
 }

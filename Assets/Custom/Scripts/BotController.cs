@@ -112,5 +112,14 @@ namespace com.terranovita.botretreat
             HealthController.UpdateBot(bot);
             StaminaController.UpdateBot(bot);
         }
+
+        public void Destroy()
+        {
+            NameTagController.Destroy();
+            HealthController.Destroy();
+            StaminaController.Destroy();
+            Destroy(gameObject);
+            Destroy(this);
+        }
     }
 }

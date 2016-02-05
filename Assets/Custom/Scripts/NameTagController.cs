@@ -29,5 +29,11 @@ namespace com.terranovita.botretreat
             var txtMesh = gameObject.GetComponent<TextMesh>();
             txtMesh.text = bot.Name;
         }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+            Destroy(this);
+        }
     }
 }

@@ -3,5 +3,6 @@
     public interface IBotDependant
     {
         void UpdateBot(Bot bot);
+        void Destroy();
     }
 }

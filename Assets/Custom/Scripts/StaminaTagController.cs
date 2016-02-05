@@ -30,5 +30,11 @@ namespace com.terranovita.botretreat
             staminaSlider.maxValue = bot.Stamina.Maximum;
             staminaSlider.value = bot.Stamina.Current;
         }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+            Destroy(this);
+        }
     }
 }
