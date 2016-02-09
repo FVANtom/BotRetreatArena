@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace com.terranovita.botretreat {
-  public enum Orientation {
-    North,
-    East,
-    South,
-    West
-  }
+﻿namespace com.terranovita.botretreat
+{
+    public enum Orientation
+    {
+        North,
+        East,
+        South,
+        West
+    }
 }
-
