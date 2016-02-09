@@ -49,8 +49,14 @@ namespace com.terranovita.botretreat {
         #endregion
 
         private List<WWWMessage> messages = new List<WWWMessage>();
-        //public static string ACCESS_POINT_URL = "http://catchthecake.com/botretreat/arena.json?";
-        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/game/";
+    //public static string ACCESS_POINT_URL = "http://catchthecake.com/botretreat/arena.json?";
+    //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/game/";
+        #if UNITY_EDITOR
+        public static string ACCESS_POINT_URL = "http://localhost:8080/api/game/";
+        #endif
+        #if !UNITY_EDITOR && UNITY_WEBGL
+        public static string ACCESS_POINT_URL = "/api/game/";
+        #endif
 
 
         // register all created WWWMessage objects and keep track of their status and yield progress. If they yield longer than the timeout stop the coroutine and make them call the error callback

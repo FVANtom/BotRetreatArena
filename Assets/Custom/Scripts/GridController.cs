@@ -138,11 +138,11 @@ namespace com.terranovita.botretreat
                     var healthController = currentHealthTagGO.GetComponent<HealthTagController>();
                     healthController.BotGameObject = currentBotGO;
                     currentBotController.HealthController = healthController;
-
+          /*
                     var currentStaminaTagGO = Instantiate(staminaTagPrefab);
                     var staminaController = currentStaminaTagGO.GetComponent<StaminaTagController>();
                     staminaController.BotGameObject = currentBotGO;
-                    currentBotController.StaminaController = staminaController;
+                    currentBotController.StaminaController = staminaController;*/
 
                     _bots.Add(bot.Id, currentBotController);
                 }
