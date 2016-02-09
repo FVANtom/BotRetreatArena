@@ -34,6 +34,15 @@ namespace com.terranovita.botretreat
             }
             return defaultVal;
         }
+        public static TEnum getEnumValue<TEnum>(this JSONObject json, string fieldName, TEnum defaultVal = default(TEnum)) where TEnum : struct
+        {
+            var fieldJson = json.GetField(fieldName);
+            if (fieldJson != null && fieldJson.IsNumber)
+            {
+                return (TEnum)Enum.ToObject(typeof(TEnum), fieldJson.i);
+            }
+            return defaultVal;
+        }
 
         public static T GetValue<T>(this JSONObject json, String fieldName) where T : ICreatableFromJson<T>, new()
         {

@@ -21,16 +21,19 @@
 
         public Health Stamina { get; set; }
 
+        public LastAction LastAction { get; set; }
+
         public Bot FromJson(JSONObject json)
         {
             Id = json.getStringValue("id");
             Name = json.getStringValue("name");
             LocationX = json.getIntValue("locationX");
             LocationY = json.getIntValue("locationY");
-            Orientation = (Orientation)json.getIntValue("orientation");
+            Orientation = json.getEnumValue<Orientation>("orientation");
             PhysicalHealth = json.GetValue<Health>("physicalHealth");
             MentalHealth = json.GetValue<Health>("mentalHealth");
             Stamina = json.GetValue<Health>("stamina");
+            LastAction = json.getEnumValue<LastAction>("lastAction");
             return this;
         }
     }
