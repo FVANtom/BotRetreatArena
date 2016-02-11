@@ -5,7 +5,6 @@ namespace com.terranovita.botretreat
 
     public class BotController : MonoBehaviour, IBotDependant
     {
-
         public class OrientationVector
         {
             public static Vector3 NORTH = new Vector3(0f, 0f, 1f);
