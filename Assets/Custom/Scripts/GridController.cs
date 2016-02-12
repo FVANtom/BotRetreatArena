@@ -50,6 +50,7 @@ namespace com.terranovita.botretreat
         public float platformHeight = 1;
         public float refreshRate = 1;
         private Arena arena;
+        private string selectedArena;
 
         public GameObject botPrefab;
         public GameObject nameTagPrefab;
@@ -94,9 +95,20 @@ namespace com.terranovita.botretreat
             InvokeRepeating("refreshGrid", 0, refreshRate);
         }
 
+        public void selectArena(string name) {
+            this.selectedArena = name;
+            refreshGrid();
+        }
+
         void refreshGrid()
         {
-            Networking.Instance.refreshGrid(successCallback, errorCallback);
+            if(hasSelectedArena()) {
+                Networking.Instance.refreshGrid(this.selectedArena, successCallback, errorCallback);
+            }
+        }
+
+        public bool hasSelectedArena() {
+            return this.selectedArena != null;
         }
 
         private void successCallback(JSONObject json)
@@ -163,5 +175,24 @@ namespace com.terranovita.botretreat
                 }
             }
         }
+
+        public List<string> getCreatureNames() {
+            List<string> toRet = new List<string>();
+            foreach (var botId in _bots.Keys)
+            {
+                toRet.Add(botId);
+            }
+            return toRet;
+        }
+
+        public Transform getCreatureById(string botId) {
+            Transform toRet = null;
+            BotController controller = null;
+            _bots.TryGetValue(botId, out controller);
+            if(controller != null) {
+                toRet = controller.transform;
+            }
+            return toRet;
+        } 
     }
 }

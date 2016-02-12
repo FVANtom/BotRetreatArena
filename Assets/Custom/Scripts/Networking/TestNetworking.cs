@@ -8,7 +8,7 @@ namespace com.terranovita.botretreat {
         // Use this for initialization
         void Start()
         {
-          Networking.Instance.refreshGrid(successCallback, errorCallback);
+          Networking.Instance.refreshGrid("test", successCallback, errorCallback);
         }
 
         private void successCallback(JSONObject json)

@@ -50,12 +50,12 @@ namespace com.terranovita.botretreat {
 
         private List<WWWMessage> messages = new List<WWWMessage>();
     //public static string ACCESS_POINT_URL = "http://catchthecake.com/botretreat/arena.json?";
-    //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/game/";
+    //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         #if UNITY_EDITOR
-        public static string ACCESS_POINT_URL = "http://localhost:8080/api/game/";
+        public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
         #endif
         #if !UNITY_EDITOR && UNITY_WEBGL
-        public static string ACCESS_POINT_URL = "/api/game/";
+        public static string ACCESS_POINT_URL = "/api/";
         #endif
 
 
@@ -82,14 +82,16 @@ namespace com.terranovita.botretreat {
           messages.RemoveAll(msg => msg.isDone());
         }
 
-
-        /*
-         * This method logs the user in and stored the returned authtoken
-         */
-        public void refreshGrid(Action<JSONObject> successCallback, Action<JSONObject> errorCallback)
+        public void refreshGrid(string arenaName, Action<JSONObject> successCallback, Action<JSONObject> errorCallback)
         {
-          WWWMessage msg = new WWWMessage(this, "arena/DeathMatchArena", successCallback, errorCallback);
-          Networking.Instance.StartCoroutine(msg.send());
+            WWWMessage msg = new WWWMessage(this, "game/arena/"+arenaName, successCallback, errorCallback);
+            Networking.Instance.StartCoroutine(msg.send());
+        }
+
+        public void refreshArenas(Action<JSONObject> successCallback, Action<JSONObject> errorCallback)
+        {
+            WWWMessage msg = new WWWMessage(this, "arenas/list", successCallback, errorCallback);
+            Networking.Instance.StartCoroutine(msg.send());
         }
 
     }
