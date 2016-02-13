@@ -142,16 +142,19 @@ namespace com.terranovita.botretreat
                 NameTagController.SetVariableOffset(0f);
                 HealthController.getGameObject().SetActive(true);
             }
+            if(_bot.Stamina == null || _bot.Stamina.Maximum <= 0) {
+                StaminaController.getGameObject().SetActive(false);
+            }
             NameTagController.UpdateBot(bot);
             HealthController.UpdateBot(bot);
-            //StaminaController.UpdateBot(bot);
+            StaminaController.UpdateBot(bot);
         }
 
         public void Destroy()
         {
             NameTagController.Destroy();
             HealthController.Destroy();
-            //StaminaController.Destroy();
+            StaminaController.Destroy();
             Destroy(gameObject);
             Destroy(this);
         }

@@ -10,8 +10,10 @@ namespace com.terranovita.botretreat
         {
             var staminaSlider = gameObject.GetComponentInChildren<Slider>();
             staminaSlider.minValue = 0;
-            staminaSlider.maxValue = bot.Stamina.Maximum;
-            staminaSlider.value = bot.Stamina.Current;
+            if(bot.Stamina != null) {
+                staminaSlider.maxValue = bot.Stamina.Maximum;
+                staminaSlider.value = bot.Stamina.Current;
+            }
         }
 
         public void Destroy()

@@ -29,6 +29,7 @@ namespace com.terranovita.botretreat
         public void arenaSelected()
         {
             GridController.Instance.selectArena(arenaDropdown.options[arenaDropdown.value].text);
+            creatureDropdown.value = 0;
             #if !UNITY_EDITOR && UNITY_WEBGL
             Application.ExternalCall( "selectArena", arenaDropdown.options[arenaDropdown.value].text );
             #endif

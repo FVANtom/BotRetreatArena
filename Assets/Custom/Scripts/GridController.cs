@@ -51,6 +51,7 @@ namespace com.terranovita.botretreat
         public float refreshRate = 1;
         private Arena arena;
         private string selectedArena;
+        private DateTime lastUpdate;
 
         public GameObject botPrefab;
         public GameObject nameTagPrefab;
@@ -60,17 +61,19 @@ namespace com.terranovita.botretreat
 
         private void initialize()
         {
-            if (grid == null)
-            {
-                grid = Instantiate(gridPrefab);
-            }
-            grid.transform.localScale = new Vector3((float)arena.Width, platformHeight, (float)arena.Height);
-            grid.GetComponent<Renderer>().sharedMaterial.SetTextureScale("_MainTex", new Vector2((float)arena.Width, (float)arena.Height));
-            if (_bots != null)
-            {
-                foreach (var botId in _bots.Keys)
+            if(arena != null) {
+                if (grid == null)
                 {
-                    _bots[botId].instantRefresh();
+                    grid = Instantiate(gridPrefab);
+                }
+                grid.transform.localScale = new Vector3((float)arena.Width, platformHeight, (float)arena.Height);
+                grid.GetComponent<Renderer>().sharedMaterial.SetTextureScale("_MainTex", new Vector2((float)arena.Width, (float)arena.Height));
+                if (_bots != null)
+                {
+                    foreach (var botId in _bots.Keys)
+                    {
+                        _bots[botId].instantRefresh();
+                    }
                 }
             }
         }
@@ -97,6 +100,7 @@ namespace com.terranovita.botretreat
 
         public void selectArena(string name) {
             this.selectedArena = name;
+            initialize();
             refreshGrid();
         }
 
@@ -115,7 +119,9 @@ namespace com.terranovita.botretreat
         {
             var oldArena = arena;
             arena = json.GetValue<Arena>("arena");
-            if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height))
+            var updateDelta = (arena.lastRefreshDateTime - lastUpdate).TotalSeconds;
+            lastUpdate = arena.lastRefreshDateTime;
+            if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height) || updateDelta > 2)
             {
                 initialize();
             }
@@ -152,12 +158,12 @@ namespace com.terranovita.botretreat
                     currentHealthTagGO.transform.parent = currentBotController.head;
                     healthController.BotGameObject = currentBotGO;
                     currentBotController.HealthController = healthController;
-          /*
+          
                     var currentStaminaTagGO = Instantiate(staminaTagPrefab);
                     var staminaController = currentStaminaTagGO.GetComponent<StaminaTagController>();
                     currentStaminaTagGO.transform.parent = currentBotController.head;
                     staminaController.BotGameObject = currentBotGO;
-                    currentBotController.StaminaController = staminaController;*/
+                    currentBotController.StaminaController = staminaController;
 
                     _bots.Add(bot.Id, currentBotController);
                 }

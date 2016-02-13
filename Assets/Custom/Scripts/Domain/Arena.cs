@@ -1,4 +1,6 @@
-﻿namespace com.terranovita.botretreat
+﻿using System;
+
+namespace com.terranovita.botretreat
 {
     public class Arena : ICreatableFromJson<Arena>
     {
@@ -14,6 +16,8 @@
 
         public bool Private { get; set; }
 
+        public DateTime lastRefreshDateTime { get; set; }
+
         public Arena FromJson(JSONObject json)
         {
             Id = json.getStringValue("id");
@@ -22,6 +26,8 @@
             Width = json.getIntValue("width", 16);
             Height = json.getIntValue("height", 9);
             Private = json.getBoolValue("private");
+            string date = json.getStringValue("lastRefreshDateTime");
+            lastRefreshDateTime = date != null ? DateTime.Parse(date) : DateTime.Now;
             return this;
         }
     }

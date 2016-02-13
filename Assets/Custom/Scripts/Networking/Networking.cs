@@ -49,11 +49,15 @@ namespace com.terranovita.botretreat {
         #endregion
 
         private List<WWWMessage> messages = new List<WWWMessage>();
-    //public static string ACCESS_POINT_URL = "http://catchthecake.com/botretreat/arena.json?";
-    //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
-        #if UNITY_EDITOR
-        //public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
-        public static string ACCESS_POINT_URL = "http://codingthegame.com/api/";
+        #if UNITY_STANDALONE    
+        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
+        #endif
+        #if UNITY_EDITOR_WIN
+        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
+        #endif
+        #if UNITY_EDITOR_OSX
+        public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
+        //public static string ACCESS_POINT_URL = "http://codingthegame.com/api/";
         #endif
         #if !UNITY_EDITOR && UNITY_WEBGL
         public static string ACCESS_POINT_URL = "/api/";
