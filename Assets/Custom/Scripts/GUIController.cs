@@ -29,6 +29,9 @@ namespace com.terranovita.botretreat
         public void arenaSelected()
         {
             GridController.Instance.selectArena(arenaDropdown.options[arenaDropdown.value].text);
+            #if !UNITY_EDITOR && UNITY_WEBGL
+            Application.ExternalCall( "selectArena", arenaDropdown.options[arenaDropdown.value].text );
+            #endif
         }
 
         void refreshArenas() {
