@@ -44,13 +44,13 @@ namespace com.terranovita.botretreat
         private Animation anim;
 	    private string lastPlayedAnim;
 
-        /*
-        private string[] loops=["loop_idle", "loop_run_funny", "loop_walk_funny"];
-        private string[] combos=["cmb_street_fight"];
-        private string[] kick=[ "kick_jump_right", "kick_lo_right"];
-        private string[] punch=["punch_hi_left", "punch_hi_right"];
-        private string[] rest=["def_head", "final_head", "jump",  "xhit_body", "xhit_head"];
-        */
+
+        public string[] loops= new []{"loop_idle", "loop_run_funny", "loop_walk_funny"};
+        public string[] combos=new []{"cmb_street_fight"};
+        public string[] kick=new []{ "kick_jump_right", "kick_lo_right"};
+        public string[] punch=new []{"punch_hi_left", "punch_hi_right"};
+        public string[] rest=new []{"def_head", "final_head", "jump",  "xhit_body", "xhit_head"};
+        public string[] turn=new []{"loop_idle", "loop_idle"};
 
         public void SetVariableOffset(float offset) {
         }
@@ -64,7 +64,7 @@ namespace com.terranovita.botretreat
             anim = this.gameObject.GetComponentInChildren<Animation>();
             if (anim != null)
             {
-                anim["loop_run_funny"].speed = 4.0f;
+                anim[loops[1]].speed = 4.0f;
             }
             instantRefresh();
         }
@@ -84,26 +84,30 @@ namespace com.terranovita.botretreat
             if (_bot != null)
             {
                 if(_bot.PhysicalHealth.Current <= 0) {
-                  GoAnimOnce("final_head");
+                  GoAnimOnce(rest[1]);
                 } else {
-                    float step = speed * Time.deltaTime;
-                    Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
-                    Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
-                    if ((newPos - transform.position).magnitude < 0.01)
-                    {
-                        //Debug.Log((newPos - transform.position).magnitude);
-                        GoAnim("loop_idle");
-                    }
-                    else {
-                        GoAnim("loop_run_funny");
-                    }
-                    transform.position = newPos;
 
                     Vector3 targetDir = OrientationVector.createFrom(_bot.Orientation);
                     float rotationStep = rotationSpeed * Time.deltaTime;
                     Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationStep, 0.0F);
+                    if(targetDir != newDir) {
+                        transform.rotation = Quaternion.LookRotation(newDir);
+                    }
+
+                    float step = speed * Time.deltaTime;
+                    Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
+                    Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
+                    if((targetDir - newDir).magnitude > 0.01) {
+                        GoAnim(turn[1]);
+                    } else if ((newPos - transform.position).magnitude > 0.01) {
+                        GoAnim(loops[1]);
+                    }
+                    else {
+                        GoAnim(loops[0]);
+                    }
+                    transform.position = newPos;
+
                     Debug.DrawRay(transform.position, newDir, Color.red);
-                    transform.rotation = Quaternion.LookRotation(newDir);
                 }
             }
         }

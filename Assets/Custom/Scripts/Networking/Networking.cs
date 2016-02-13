@@ -52,7 +52,8 @@ namespace com.terranovita.botretreat {
     //public static string ACCESS_POINT_URL = "http://catchthecake.com/botretreat/arena.json?";
     //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         #if UNITY_EDITOR
-        public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
+        //public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
+        public static string ACCESS_POINT_URL = "http://codingthegame.com/api/";
         #endif
         #if !UNITY_EDITOR && UNITY_WEBGL
         public static string ACCESS_POINT_URL = "/api/";
