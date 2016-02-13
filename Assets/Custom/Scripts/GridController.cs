@@ -121,12 +121,12 @@ namespace com.terranovita.botretreat
             arena = json.GetValue<Arena>("arena");
             var updateDelta = (arena.lastRefreshDateTime - lastUpdate).TotalSeconds;
             lastUpdate = arena.lastRefreshDateTime;
+            var bots = json.GetValues<Bot>("bots");
+            refreshBots(bots);
             if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height) || updateDelta > 2)
             {
                 initialize();
             }
-            var bots = json.GetValues<Bot>("bots");
-            refreshBots(bots);
         }
 
         private void errorCallback(JSONObject json)
