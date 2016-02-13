@@ -31,6 +31,7 @@ namespace com.terranovita.botretreat
         }
 
         private Bot _bot;
+        public Transform head; 
 
         public float speed = 2;
         public float rotationSpeed = 20;
@@ -41,7 +42,7 @@ namespace com.terranovita.botretreat
 
 
         private Animation anim;
-	private string lastPlayedAnim;
+	    private string lastPlayedAnim;
 
         /*
         private string[] loops=["loop_idle", "loop_run_funny", "loop_walk_funny"];
@@ -51,6 +52,12 @@ namespace com.terranovita.botretreat
         private string[] rest=["def_head", "final_head", "jump",  "xhit_body", "xhit_head"];
         */
 
+        public void SetVariableOffset(float offset) {
+        }
+
+        public GameObject getGameObject() {
+            return this.gameObject;
+        }
 
         void Start()
         {
@@ -124,6 +131,13 @@ namespace com.terranovita.botretreat
         public void UpdateBot(Bot bot)
         {
             _bot = bot;
+            if(_bot.PhysicalHealth.Current <= 0) {
+                NameTagController.SetVariableOffset(-1f);
+                HealthController.getGameObject().SetActive(false);
+            } else {
+                NameTagController.SetVariableOffset(0f);
+                HealthController.getGameObject().SetActive(true);
+            }
             NameTagController.UpdateBot(bot);
             HealthController.UpdateBot(bot);
             //StaminaController.UpdateBot(bot);
