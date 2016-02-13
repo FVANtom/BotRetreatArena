@@ -1,17 +1,17 @@
-﻿namespace com.terranovita.botretreat
+﻿using System;
+
+namespace com.terranovita.botretreat
 {
     public class Bot : ICreatableFromJson<Bot>
     {
 
-        public string Id { get; set; }
+        public String Id { get; set; }
 
-        public string Name { get; set; }
+        public String Name { get; set; }
 
         //public string Color { get; set; }
 
-        public int LocationX { get; set; }
-
-        public int LocationY { get; set; }
+        public Position Location { get; set; }
 
         public Orientation Orientation { get; set; }
 
@@ -23,12 +23,13 @@
 
         public LastAction LastAction { get; set; }
 
+        public Position LastAttackLocation { get; set; }
+
         public Bot FromJson(JSONObject json)
         {
             Id = json.getStringValue("id");
             Name = json.getStringValue("name");
-            LocationX = json.getIntValue("locationX");
-            LocationY = json.getIntValue("locationY");
+            Location = json.GetValue<Position>("location");
             Orientation = json.getEnumValue<Orientation>("orientation");
             PhysicalHealth = json.GetValue<Health>("physicalHealth");
             MentalHealth = json.GetValue<Health>("mentalHealth");
@@ -42,6 +43,7 @@
 
 
             LastAction = json.getEnumValue<LastAction>("lastAction");
+            LastAttackLocation = json.GetValue<Position>("lastAttackLocation");
             return this;
         }
     }

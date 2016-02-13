@@ -41,7 +41,7 @@ namespace com.terranovita.botretreat
 
 
         private Animation anim;
-private string lastPlayedAnim;
+	private string lastPlayedAnim;
 
         /*
         private string[] loops=["loop_idle", "loop_run_funny", "loop_walk_funny"];
@@ -66,7 +66,7 @@ private string lastPlayedAnim;
         {
             if (_bot != null)
             {
-                transform.position = GridController.Instance.gridToWorldPosition(_bot.LocationX, _bot.LocationY);
+                transform.position = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
                 transform.eulerAngles = OrientationVector.createFrom(_bot.Orientation);
                 lastPlayedAnim = null;
             }
@@ -80,7 +80,7 @@ private string lastPlayedAnim;
                   GoAnimOnce("final_head");
                 } else {
                     float step = speed * Time.deltaTime;
-                    Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.LocationX, _bot.LocationY);
+                    Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
                     Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
                     if ((newPos - transform.position).magnitude < 0.01)
                     {

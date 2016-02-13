@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arenaDropdown: {fileID: 1243717958}
   creatureDropdown: {fileID: 2019555566}
-  smoothFollow: {fileID: 0}
+  smoothFollow: {fileID: 1716682237}
 --- !u!114 &69120429
 MonoBehaviour:
   m_ObjectHideFlags: 0
