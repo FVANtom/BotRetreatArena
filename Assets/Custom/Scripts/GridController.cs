@@ -100,7 +100,8 @@ namespace com.terranovita.botretreat
 
         public void selectArena(string name) {
             this.selectedArena = name;
-            initialize();
+            arena = null;
+            CleanAllBots();
             refreshGrid();
         }
 
@@ -168,6 +169,16 @@ namespace com.terranovita.botretreat
                     _bots.Add(bot.Id, currentBotController);
                 }
                 currentBotController.UpdateBot(bot);
+            }
+        }
+
+        private void CleanAllBots()
+        {
+            var cachedBotIds = _bots.Select(x => x.Key).ToList();
+            foreach (var cachedBotId in cachedBotIds)
+            {
+                _bots[cachedBotId].Destroy();
+                _bots.Remove(cachedBotId);
             }
         }
 
