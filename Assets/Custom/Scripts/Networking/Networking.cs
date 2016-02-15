@@ -49,8 +49,19 @@ namespace com.terranovita.botretreat {
         #endregion
 
         private List<WWWMessage> messages = new List<WWWMessage>();
-        //public static string ACCESS_POINT_URL = "http://catchthecake.com/botretreat/arena.json?";
-        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/game/";
+        #if UNITY_STANDALONE    
+        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
+        #endif
+        #if UNITY_EDITOR_WIN
+        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
+        #endif
+        #if UNITY_EDITOR_OSX
+        public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
+        //public static string ACCESS_POINT_URL = "http://codingthegame.com/api/";
+        #endif
+        #if !UNITY_EDITOR && UNITY_WEBGL
+        public static string ACCESS_POINT_URL = "/api/";
+        #endif
 
 
         // register all created WWWMessage objects and keep track of their status and yield progress. If they yield longer than the timeout stop the coroutine and make them call the error callback
@@ -76,14 +87,16 @@ namespace com.terranovita.botretreat {
           messages.RemoveAll(msg => msg.isDone());
         }
 
-
-        /*
-         * This method logs the user in and stored the returned authtoken
-         */
-        public void refreshGrid(Action<JSONObject> successCallback, Action<JSONObject> errorCallback)
+        public void refreshGrid(string arenaName, Action<JSONObject> successCallback, Action<JSONObject> errorCallback)
         {
-          WWWMessage msg = new WWWMessage(this, "arena/DeathMatchArena", successCallback, errorCallback);
-          Networking.Instance.StartCoroutine(msg.send());
+            WWWMessage msg = new WWWMessage(this, "game/arena/"+arenaName, successCallback, errorCallback);
+            Networking.Instance.StartCoroutine(msg.send());
+        }
+
+        public void refreshArenas(Action<JSONObject> successCallback, Action<JSONObject> errorCallback)
+        {
+            WWWMessage msg = new WWWMessage(this, "arenas/list", successCallback, errorCallback);
+            Networking.Instance.StartCoroutine(msg.send());
         }
 
     }

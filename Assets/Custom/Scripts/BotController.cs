@@ -5,6 +5,7 @@ namespace com.terranovita.botretreat
 
     public class BotController : MonoBehaviour, IBotDependant
     {
+
         public class OrientationVector
         {
             public static Vector3 NORTH = new Vector3(0f, 0f, 1f);
@@ -30,6 +31,7 @@ namespace com.terranovita.botretreat
         }
 
         private Bot _bot;
+        public Transform head; 
 
         public float speed = 2;
         public float rotationSpeed = 20;
@@ -40,22 +42,29 @@ namespace com.terranovita.botretreat
 
 
         private Animation anim;
+	    private string lastPlayedAnim;
 
-        /*
-        private string[] loops=["loop_idle", "loop_run_funny", "loop_walk_funny"];
-        private string[] combos=["cmb_street_fight"];
-        private string[] kick=[ "kick_jump_right", "kick_lo_right"];
-        private string[] punch=["punch_hi_left", "punch_hi_right"];
-        private string[] rest=["def_head", "final_head", "jump",  "xhit_body", "xhit_head"];
-        */
 
+        public string[] loops= new []{"loop_idle", "loop_run_funny", "loop_walk_funny"};
+        public string[] combos=new []{"cmb_street_fight"};
+        public string[] kick=new []{ "kick_jump_right", "kick_lo_right"};
+        public string[] punch=new []{"punch_hi_left", "punch_hi_right"};
+        public string[] rest=new []{"def_head", "final_head", "jump",  "xhit_body", "xhit_head"};
+        public string[] turn=new []{"loop_idle", "loop_idle"};
+
+        public void SetVariableOffset(float offset) {
+        }
+
+        public GameObject getGameObject() {
+            return this.gameObject;
+        }
 
         void Start()
         {
             anim = this.gameObject.GetComponentInChildren<Animation>();
             if (anim != null)
             {
-                anim["loop_run_funny"].speed = 4.0f;
+                anim[loops[1]].speed = 4.0f;
             }
             instantRefresh();
         }
@@ -66,6 +75,7 @@ namespace com.terranovita.botretreat
             {
                 transform.position = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
                 transform.eulerAngles = OrientationVector.createFrom(_bot.Orientation);
+                lastPlayedAnim = null;
             }
         }
 
@@ -73,24 +83,32 @@ namespace com.terranovita.botretreat
         {
             if (_bot != null)
             {
-                float step = speed * Time.deltaTime;
-                Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
-                Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
-                if ((newPos - transform.position).magnitude < 0.01)
-                {
-                    //Debug.Log((newPos - transform.position).magnitude);
-                    GoAnim("loop_idle");
-                }
-                else {
-                    GoAnim("loop_run_funny");
-                }
-                transform.position = newPos;
+                if(_bot.PhysicalHealth.Current <= 0) {
+                  GoAnimOnce(rest[1]);
+                } else {
 
-                Vector3 targetDir = OrientationVector.createFrom(_bot.Orientation);
-                float rotationStep = rotationSpeed * Time.deltaTime;
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationStep, 0.0F);
-                Debug.DrawRay(transform.position, newDir, Color.red);
-                transform.rotation = Quaternion.LookRotation(newDir);
+                    Vector3 targetDir = OrientationVector.createFrom(_bot.Orientation);
+                    float rotationStep = rotationSpeed * Time.deltaTime;
+                    Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationStep, 0.0F);
+                    if(targetDir != newDir) {
+                        transform.rotation = Quaternion.LookRotation(newDir);
+                    }
+
+                    float step = speed * Time.deltaTime;
+                    Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
+                    Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
+                    if((targetDir - newDir).magnitude > 0.01) {
+                        GoAnim(turn[1]);
+                    } else if ((newPos - transform.position).magnitude > 0.01) {
+                        GoAnim(loops[1]);
+                    }
+                    else {
+                        GoAnim(loops[0]);
+                    }
+                    transform.position = newPos;
+
+                    Debug.DrawRay(transform.position, newDir, Color.red);
+                }
             }
         }
 
@@ -101,12 +119,32 @@ namespace com.terranovita.botretreat
                 //Debug.Log(anim.clip.name +" vs "+ nme);
                 anim.Stop();
                 anim.Play(nme);
+                lastPlayedAnim = null;
             }
         }
+
+ 	void GoAnimOnce ( string nme  ){
+      if(!anim.IsPlaying(nme) && lastPlayedAnim != nme) {
+        //Debug.Log(anim.clip.name +" vs "+ nme);
+        anim.Stop();
+        anim.Play(nme);
+        lastPlayedAnim = nme;
+      }
+    }
 
         public void UpdateBot(Bot bot)
         {
             _bot = bot;
+            if(_bot.PhysicalHealth.Current <= 0) {
+                NameTagController.SetVariableOffset(-1f);
+                HealthController.getGameObject().SetActive(false);
+            } else {
+                NameTagController.SetVariableOffset(0f);
+                HealthController.getGameObject().SetActive(true);
+            }
+            if(_bot.Stamina == null || _bot.Stamina.Maximum <= 0) {
+                StaminaController.getGameObject().SetActive(false);
+            }
             NameTagController.UpdateBot(bot);
             HealthController.UpdateBot(bot);
             StaminaController.UpdateBot(bot);
