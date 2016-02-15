@@ -24,7 +24,7 @@ namespace com.terranovita.botretreat
         }
         public void creatureSelected()
         {
-            smoothFollow.target = GridController.Instance.getCreatureById(creatureDropdown.options[creatureDropdown.value].text);
+            smoothFollow.target = GridController.Instance.getCreatureByName(creatureDropdown.options[creatureDropdown.value].text);
         }
         public void arenaSelected()
         {

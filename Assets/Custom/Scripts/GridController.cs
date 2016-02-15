@@ -61,7 +61,8 @@ namespace com.terranovita.botretreat
 
         private void initialize()
         {
-            if(arena != null) {
+            if (arena != null)
+            {
                 if (grid == null)
                 {
                     grid = Instantiate(gridPrefab);
@@ -98,7 +99,8 @@ namespace com.terranovita.botretreat
             InvokeRepeating("refreshGrid", 0, refreshRate);
         }
 
-        public void selectArena(string name) {
+        public void selectArena(string name)
+        {
             this.selectedArena = name;
             arena = null;
             CleanAllBots();
@@ -107,12 +109,14 @@ namespace com.terranovita.botretreat
 
         void refreshGrid()
         {
-            if(hasSelectedArena()) {
+            if (hasSelectedArena())
+            {
                 Networking.Instance.refreshGrid(this.selectedArena, successCallback, errorCallback);
             }
         }
 
-        public bool hasSelectedArena() {
+        public bool hasSelectedArena()
+        {
             return this.selectedArena != null;
         }
 
@@ -124,7 +128,7 @@ namespace com.terranovita.botretreat
             lastUpdate = arena.lastRefreshDateTime;
             var bots = json.GetValues<Bot>("bots");
             refreshBots(bots);
-            if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height) || updateDelta > 2)
+            if (oldArena == null || (oldArena.Width != arena.Width && oldArena.Height != arena.Height) || updateDelta > 3)
             {
                 initialize();
             }
@@ -159,7 +163,7 @@ namespace com.terranovita.botretreat
                     currentHealthTagGO.transform.parent = currentBotController.head;
                     healthController.BotGameObject = currentBotGO;
                     currentBotController.HealthController = healthController;
-          
+
                     var currentStaminaTagGO = Instantiate(staminaTagPrefab);
                     var staminaController = currentStaminaTagGO.GetComponent<StaminaTagController>();
                     currentStaminaTagGO.transform.parent = currentBotController.head;
@@ -196,23 +200,27 @@ namespace com.terranovita.botretreat
             }
         }
 
-        public List<string> getCreatureNames() {
-            List<string> toRet = new List<string>();
-            foreach (var botId in _bots.Keys)
+        public List<string> getCreatureNames()
+        {
+            return _bots.Values.Select(x => x.BotName).OrderBy(x => x).ToList();
+        }
+
+        public Transform getCreatureById(string botId)
+        {
+            Transform toRet = null;
+            BotController controller = null;
+            _bots.TryGetValue(botId, out controller);
+            if (controller != null)
             {
-                toRet.Add(botId);
+                toRet = controller.transform;
             }
             return toRet;
         }
 
-        public Transform getCreatureById(string botId) {
-            Transform toRet = null;
-            BotController controller = null;
-            _bots.TryGetValue(botId, out controller);
-            if(controller != null) {
-                toRet = controller.transform;
-            }
-            return toRet;
-        } 
+        public Transform getCreatureByName(string botName)
+        {
+            var botController = _bots.Values.SingleOrDefault(x => x.BotName == botName);
+            return botController == null ? null : botController.transform;
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace com.terranovita.botretreat {
 
         private List<WWWMessage> messages = new List<WWWMessage>();
         #if UNITY_STANDALONE    
-        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
+        //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         #endif
         #if UNITY_EDITOR_WIN
         public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
