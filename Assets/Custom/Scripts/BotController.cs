@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace com.terranovita.botretreat
 {
@@ -31,7 +32,7 @@ namespace com.terranovita.botretreat
         }
 
         private Bot _bot;
-        public Transform head; 
+        public Transform head;
 
         public float speed = 2;
         public float rotationSpeed = 20;
@@ -42,20 +43,24 @@ namespace com.terranovita.botretreat
 
 
         private Animation anim;
-	    private string lastPlayedAnim;
+        private string lastPlayedAnim;
 
 
-        public string[] loops= new []{"loop_idle", "loop_run_funny", "loop_walk_funny"};
-        public string[] combos=new []{"cmb_street_fight"};
-        public string[] kick=new []{ "kick_jump_right", "kick_lo_right"};
-        public string[] punch=new []{"punch_hi_left", "punch_hi_right"};
-        public string[] rest=new []{"def_head", "final_head", "jump",  "xhit_body", "xhit_head"};
-        public string[] turn=new []{"loop_idle", "loop_idle"};
+        public string[] loops = new[] { "loop_idle", "loop_run_funny", "loop_walk_funny" };
+        public string[] combos = new[] { "cmb_street_fight" };
+        public string[] kick = new[] { "kick_jump_right", "kick_lo_right" };
+        public string[] punch = new[] { "punch_hi_left", "punch_hi_right" };
+        public string[] rest = new[] { "def_head", "final_head", "jump", "xhit_body", "xhit_head" };
+        public string[] turn = new[] { "loop_idle", "loop_idle" };
 
-        public void SetVariableOffset(float offset) {
+        public String BotName { get { return _bot.Name; } }
+
+        public void SetVariableOffset(float offset)
+        {
         }
 
-        public GameObject getGameObject() {
+        public GameObject getGameObject()
+        {
             return this.gameObject;
         }
 
@@ -83,27 +88,48 @@ namespace com.terranovita.botretreat
         {
             if (_bot != null)
             {
-                if(_bot.PhysicalHealth.Current <= 0) {
-                  GoAnimOnce(rest[1]);
-                } else {
+                if (_bot.PhysicalHealth.Current <= 0)
+                {
+                    GoAnimOnce(rest[1]);
+                }
+                else {
 
                     Vector3 targetDir = OrientationVector.createFrom(_bot.Orientation);
                     float rotationStep = rotationSpeed * Time.deltaTime;
                     Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationStep, 0.0F);
-                    if(targetDir != newDir) {
+                    if (targetDir != newDir)
+                    {
                         transform.rotation = Quaternion.LookRotation(newDir);
                     }
 
                     float step = speed * Time.deltaTime;
                     Vector3 targetWorldPosition = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
                     Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
-                    if((targetDir - newDir).magnitude > 0.01) {
+                    if ((targetDir - newDir).magnitude > 0.01)
+                    {
                         GoAnim(turn[1]);
-                    } else if ((newPos - transform.position).magnitude > 0.01) {
+                    }
+                    else if ((newPos - transform.position).magnitude > 0.01)
+                    {
                         GoAnim(loops[1]);
                     }
-                    else {
-                        GoAnim(loops[0]);
+                    else
+                    {
+                        switch (_bot.LastAction)
+                        {
+                            case LastAction.MeleeAttack:
+                                GoAnim(combos[0]);
+                                break;
+                            case LastAction.RangedAttack:
+                                GoAnim(punch[1]);
+                                break;
+                            case LastAction.SelfDestruct:
+                                GoAnim(rest[2]);
+                                break;
+                            default:
+                                GoAnim(loops[0]);
+                                break;
+                        }
                     }
                     transform.position = newPos;
 
@@ -123,26 +149,31 @@ namespace com.terranovita.botretreat
             }
         }
 
- 	void GoAnimOnce ( string nme  ){
-      if(!anim.IsPlaying(nme) && lastPlayedAnim != nme) {
-        //Debug.Log(anim.clip.name +" vs "+ nme);
-        anim.Stop();
-        anim.Play(nme);
-        lastPlayedAnim = nme;
-      }
-    }
+        void GoAnimOnce(string nme)
+        {
+            if (!anim.IsPlaying(nme) && lastPlayedAnim != nme)
+            {
+                //Debug.Log(anim.clip.name +" vs "+ nme);
+                anim.Stop();
+                anim.Play(nme);
+                lastPlayedAnim = nme;
+            }
+        }
 
         public void UpdateBot(Bot bot)
         {
             _bot = bot;
-            if(_bot.PhysicalHealth.Current <= 0) {
+            if (_bot.PhysicalHealth.Current <= 0)
+            {
                 NameTagController.SetVariableOffset(-1f);
                 HealthController.getGameObject().SetActive(false);
-            } else {
+            }
+            else {
                 NameTagController.SetVariableOffset(0f);
                 HealthController.getGameObject().SetActive(true);
             }
-            if(_bot.Stamina == null || _bot.Stamina.Maximum <= 0) {
+            if (_bot.Stamina == null || _bot.PhysicalHealth.Current <= 0)
+            {
                 StaminaController.getGameObject().SetActive(false);
             }
             NameTagController.UpdateBot(bot);
