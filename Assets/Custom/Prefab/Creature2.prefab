@@ -491,6 +491,22 @@ MonoBehaviour:
   head: {fileID: 457496}
   speed: 2
   rotationSpeed: 2
+  IDLE: Idle
+  WALK_SLOW: Walk
+  WALK: Walk
+  RUN: loop_run_funny
+  COMBO_ATTACK: Attack2
+  JUMP_KICK: kick_jump_right
+  KICK: kick_lo_right
+  PUNCH_LEFT: Attack1
+  PUNCH_RIGHT: Attack1
+  DEFEND: def_head
+  DEATH: Death
+  JUMP: jump
+  BODY_HIT: xhit_body
+  HEAD_HIT: xhit_head
+  TURN_LEFT: Turn Left
+  TURN_RIGHT: Turn Right
   loops:
   - Idle
   - Walk

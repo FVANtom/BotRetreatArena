@@ -45,13 +45,37 @@ namespace com.terranovita.botretreat
         private Animation anim;
         private string lastPlayedAnim;
 
+        public string IDLE = "loop_idle";
+        public string WALK_SLOW = "loop_walk_funny";
+        public string WALK = "loop_run_funny";
+        public string RUN = "loop_run_funny";
 
+        public string COMBO_ATTACK = "cmb_street_fight";
+
+        public string JUMP_KICK = "kick_jump_right";
+        public string KICK = "kick_lo_right";
+
+        public string PUNCH_LEFT = "punch_hi_left";
+        public string PUNCH_RIGHT = "punch_hi_right";
+
+
+        public string DEFEND = "def_head";
+        public string DEATH = "final_head";
+        public string JUMP = "jump";
+        public string BODY_HIT = "xhit_body";
+        public string HEAD_HIT = "xhit_head";
+
+        public string TURN_LEFT = "loop_idle";
+        public string TURN_RIGHT = "loop_idle";
+
+        /*
         public string[] loops = new[] { "loop_idle", "loop_run_funny", "loop_walk_funny" };
         public string[] combos = new[] { "cmb_street_fight" };
         public string[] kick = new[] { "kick_jump_right", "kick_lo_right" };
         public string[] punch = new[] { "punch_hi_left", "punch_hi_right" };
         public string[] rest = new[] { "def_head", "final_head", "jump", "xhit_body", "xhit_head" };
         public string[] turn = new[] { "loop_idle", "loop_idle" };
+        */
 
         public String BotName { get { return _bot.Name; } }
 
@@ -69,7 +93,7 @@ namespace com.terranovita.botretreat
             anim = this.gameObject.GetComponentInChildren<Animation>();
             if (anim != null)
             {
-                anim[loops[1]].speed = 4.0f;
+                anim[WALK].speed = 4.0f;
             }
             instantRefresh();
         }
@@ -90,7 +114,7 @@ namespace com.terranovita.botretreat
             {
                 if (_bot.PhysicalHealth.Current <= 0)
                 {
-                    GoAnimOnce(rest[1]);
+                    GoAnimOnce(DEATH);
                 }
                 else {
 
@@ -107,27 +131,27 @@ namespace com.terranovita.botretreat
                     Vector3 newPos = Vector3.MoveTowards(transform.position, targetWorldPosition, step);
                     if ((targetDir - newDir).magnitude > 0.01)
                     {
-                        GoAnim(turn[1]);
+                        GoAnim(TURN_RIGHT);
                     }
                     else if ((newPos - transform.position).magnitude > 0.01)
                     {
-                        GoAnim(loops[1]);
+                        GoAnim(WALK);
                     }
                     else
                     {
                         switch (_bot.LastAction)
                         {
                             case LastAction.MeleeAttack:
-                                GoAnim(combos[0]);
+                                GoAnim(COMBO_ATTACK);
                                 break;
                             case LastAction.RangedAttack:
-                                GoAnim(punch[1]);
+                                GoAnim(PUNCH_RIGHT);
                                 break;
                             case LastAction.SelfDestruct:
-                                GoAnim(rest[2]);
+                                GoAnimOnce(DEATH);
                                 break;
                             default:
-                                GoAnim(loops[0]);
+                                GoAnim(IDLE);
                                 break;
                         }
                     }
