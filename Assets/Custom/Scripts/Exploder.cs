@@ -37,6 +37,8 @@ public class Exploder : MonoBehaviour
             }
             yield return new WaitForFixedUpdate();
         }
+
+        Destroy(container);
     }
 
     private void ShootFromCurrentPosition()
