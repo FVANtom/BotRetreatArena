@@ -114,6 +114,7 @@ namespace com.terranovita.botretreat
             {
                 if (_bot.PhysicalHealth.Current <= 0)
                 {
+                    GetComponent<Exploder>().Explode();
                     GoAnimOnce(DEATH);
                 }
                 else {
