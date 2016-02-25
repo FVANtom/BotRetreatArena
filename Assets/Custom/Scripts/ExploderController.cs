@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Exploder : MonoBehaviour
+public class ExploderController : MonoBehaviour
 {
 
     public GameObject ExplosionEffectsContainer;

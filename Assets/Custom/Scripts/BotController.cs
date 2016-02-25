@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Custom.Scripts.Utils;
 using UnityEngine;
 
 namespace com.terranovita.botretreat
@@ -112,9 +113,8 @@ namespace com.terranovita.botretreat
         {
             if (_bot != null)
             {
-                if (_bot.PhysicalHealth.Current <= 0)
+                if (_bot.PhysicalHealth.Current <= 0 && _bot.LastAction != LastAction.SelfDestruct)
                 {
-                    GetComponent<Exploder>().Explode();
                     GoAnimOnce(DEATH);
                 }
                 else {
@@ -149,6 +149,7 @@ namespace com.terranovita.botretreat
                                 GoAnim(PUNCH_RIGHT);
                                 break;
                             case LastAction.SelfDestruct:
+                                GetComponent<ExploderController>().Do(x => x.Explode());
                                 GoAnimOnce(DEATH);
                                 break;
                             default:
