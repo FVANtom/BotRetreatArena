@@ -1161,7 +1161,7 @@ MonoBehaviour:
   gridToWorldScale: 1
   platformHeight: 1
   refreshRate: 1
-  botPrefab: {fileID: 131020, guid: de302ecbd7f5f4c9a8e0ce99e3d57570, type: 2}
+  botPrefab: {fileID: 131020, guid: c370ef6a9941e431cb0a605b649b0084, type: 2}
   nameTagPrefab: {fileID: 127760, guid: 62ccf87495b534a488a482d63ef42d82, type: 2}
   healthTagPrefab: {fileID: 136166, guid: 814c1becb0ef1fc4eb0f4403f842777b, type: 2}
   staminaTagPrefab: {fileID: 101522, guid: 5b58dcc71bca2994eb3492d67bad8fd5, type: 2}

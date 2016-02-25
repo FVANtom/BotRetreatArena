@@ -69,6 +69,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 415044}
   - 114: {fileID: 11454182}
+  - 114: {fileID: 11463352}
   m_Layer: 0
   m_Name: Creature2
   m_TagString: Untagged
@@ -507,27 +508,27 @@ MonoBehaviour:
   HEAD_HIT: xhit_head
   TURN_LEFT: Turn Left
   TURN_RIGHT: Turn Right
-  loops:
-  - Idle
-  - Walk
-  - loop_walk_funny
-  combos:
-  - cmb_street_fight
-  kick:
-  - kick_jump_right
-  - kick_lo_right
-  punch:
-  - punch_hi_left
-  - punch_hi_right
-  rest:
-  - def_head
-  - Death
-  - jump
-  - xhit_body
-  - xhit_head
-  turn:
-  - Turn Left
-  - Turn Right
+--- !u!114 &11463352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d039134acf55a14fbb781a9c088c4ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExplosionEffectsContainer: {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874,
+    type: 2}
+  scale: 0.2
+  playbackSpeed: 1
+  explosionTime: 0
+  randomizeExplosionTime: 0
+  radius: 15
+  power: 1
+  probeCount: 150
+  explodeDuration: 0.5
 --- !u!137 &13791882
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -615,6 +616,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: turn.Array.data[1]
       value: Turn Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ExplosionEffectsContainer
+      value: 
+      objectReference: {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 2}
+    - target: {fileID: 0}
+      propertyPath: scale
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
