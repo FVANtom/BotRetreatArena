@@ -46,18 +46,11 @@ namespace com.terranovita.botretreat
         private string lastPlayedAnim;
 
         public string IDLE = "loop_idle";
-        public string WALK_SLOW = "loop_walk_funny";
         public string WALK = "loop_run_funny";
-        public string RUN = "loop_run_funny";
 
-        public string COMBO_ATTACK = "cmb_street_fight";
-
-        public string JUMP_KICK = "kick_jump_right";
-        public string KICK = "kick_lo_right";
-
-        public string PUNCH_LEFT = "punch_hi_left";
-        public string PUNCH_RIGHT = "punch_hi_right";
-
+        public string MELEE_ATTACK = "cmb_street_fight";
+        public string RANGED_ATTACK = "punch_hi_right";
+        public string SELF_DESTRUCT = "final_head";
 
         public string DEFEND = "def_head";
         public string DEATH = "final_head";
@@ -142,13 +135,13 @@ namespace com.terranovita.botretreat
                         switch (_bot.LastAction)
                         {
                             case LastAction.MeleeAttack:
-                                GoAnim(COMBO_ATTACK);
+                                GoAnim(MELEE_ATTACK);
                                 break;
                             case LastAction.RangedAttack:
-                                GoAnim(PUNCH_RIGHT);
+                                GoAnim(RANGED_ATTACK);
                                 break;
                             case LastAction.SelfDestruct:
-                                GoAnimOnce(DEATH);
+                                GoAnimOnce(SELF_DESTRUCT);
                                 break;
                             default:
                                 GoAnim(IDLE);

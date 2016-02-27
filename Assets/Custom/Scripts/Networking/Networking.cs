@@ -49,10 +49,12 @@ namespace com.terranovita.botretreat {
         #endregion
 
         private List<WWWMessage> messages = new List<WWWMessage>();
-        #if UNITY_STANDALONE    
-        //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
+        #if !UNITY_EDITOR_WIN && UNITY_STANDALONE    
+        // production URL
+        public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         #endif
         #if UNITY_EDITOR_WIN
+        // dev url
         public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         #endif
         #if UNITY_EDITOR_OSX
