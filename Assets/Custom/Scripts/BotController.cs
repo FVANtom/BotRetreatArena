@@ -34,6 +34,8 @@ namespace com.terranovita.botretreat
 
         private Bot _bot;
         public Transform head;
+        public GameObject rangeAttackPrefab;
+        private GameObject rangeAttack = null;
 
         public float speed = 2;
         public float rotationSpeed = 20;
@@ -111,6 +113,7 @@ namespace com.terranovita.botretreat
                     GoAnimOnce(DEATH);
                 }
                 else {
+                    
 
                     Vector3 targetDir = OrientationVector.createFrom(_bot.Orientation);
                     float rotationStep = rotationSpeed * Time.deltaTime;
@@ -139,7 +142,15 @@ namespace com.terranovita.botretreat
                                 GoAnim(MELEE_ATTACK);
                                 break;
                             case LastAction.RangedAttack:
-                                GoAnim(RANGED_ATTACK);
+                                if(rangeAttack == null) {
+                                    rangeAttack = Instantiate(rangeAttackPrefab);
+                                    //rangeAttack.transform.SetParent(this.transform);
+                                    RangeAttackController rangeAttackController = rangeAttack.GetComponent<RangeAttackController>();
+                                    Vector3 startPos = GridController.Instance.gridToWorldPosition(_bot.Location.X, _bot.Location.Y);
+                                    Vector3 targetPos = GridController.Instance.gridToWorldPosition(_bot.LastAttackLocation.X, _bot.LastAttackLocation.Y);
+                                    rangeAttackController.fire(startPos, targetPos, 3f);
+                                    GoAnim(RANGED_ATTACK);
+                                }
                                 break;
                             case LastAction.SelfDestruct:
                                 GetComponent<ExploderController>().Do(x => x.Explode());

@@ -58,6 +58,7 @@ namespace com.terranovita.botretreat {
         public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         #endif
         #if UNITY_EDITOR_OSX
+        //public static string ACCESS_POINT_URL = "http://botretreat.cloudapp.net/api/";
         public static string ACCESS_POINT_URL = "http://localhost:8080/api/";
         //public static string ACCESS_POINT_URL = "http://codingthegame.com/api/";
         #endif
