@@ -142,7 +142,7 @@ namespace com.terranovita.botretreat
                                 GoAnim(MELEE_ATTACK);
                                 break;
                             case LastAction.RangedAttack:
-                                if(rangeAttack == null) {
+                                if(rangeAttack == null && _bot.LastAttackLocation != null) {
                                     rangeAttack = Instantiate(rangeAttackPrefab);
                                     //rangeAttack.transform.SetParent(this.transform);
                                     RangeAttackController rangeAttackController = rangeAttack.GetComponent<RangeAttackController>();

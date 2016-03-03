@@ -162,7 +162,7 @@ namespace com.terranovita.botretreat
                     nameTagController.BotGameObject = currentBotGO;
                     currentBotController.NameTagController = nameTagController;
 
-                    var currentHealthTagGO = Instantiate(healthTagPrefab);
+                    var currentHealthTagGO = Instantiate(healthTagPrefab); 
                     var healthController = currentHealthTagGO.GetComponent<HealthTagController>();
                     currentHealthTagGO.transform.SetParent(currentBotController.head);
                     healthController.BotGameObject = currentBotGO;

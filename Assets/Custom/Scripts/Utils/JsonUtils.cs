@@ -47,7 +47,7 @@ namespace com.terranovita.botretreat
         public static T GetValue<T>(this JSONObject json, String fieldName) where T : ICreatableFromJson<T>, new()
         {
             var fieldJson = json.GetField(fieldName);
-            return fieldJson != null ? new T().FromJson(fieldJson) : default(T);
+            return fieldJson != null && !fieldJson.IsNull ? new T().FromJson(fieldJson) : default(T);
         }
 
         public static List<T> GetValues<T>(this JSONObject json, String fieldName) where T : ICreatableFromJson<T>, new()

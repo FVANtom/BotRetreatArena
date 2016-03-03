@@ -41,6 +41,11 @@ namespace com.terranovita.botretreat
                 PhysicalHealth.Maximum = (int)json.GetField("stats").GetField("maxHp").n;
             }
 
+            if(json.GetField("stats") != null && json.GetField("stats").GetField("energy") != null) {
+                Stamina = new Health();
+                Stamina.Current = (int)json.GetField("stats").GetField("energy").n;
+                Stamina.Maximum = (int)json.GetField("stats").GetField("maxEnergy").n;
+            }
 
             LastAction = json.getEnumValue<LastAction>("lastAction");
             LastAttackLocation = json.GetValue<Position>("lastAttackLocation");
